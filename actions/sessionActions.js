@@ -1,5 +1,5 @@
 import * as types from './actionTypes';  
-import sessionApi from '../api/sessionApi';
+import sessionApi from '../apiModule/sessionApi';
 import { push } from 'connected-react-router';
 
 
@@ -18,10 +18,10 @@ export function logout() {
   return {type: types.LOGOUT};
 }
 
-export function loginUser(credentials) {  
+export function loginUser(credentials,client) {  
   return function(dispatch) {
     dispatch(loginRequest());
-    return sessionApi.postLogin(credentials).then(response => {      
+    return sessionApi.postLogin(credentials,client).then(response => { 
       dispatch(loginSuccess({user: response.user, jwt: response.jwt}));
       dispatch(push('/'));
     }).catch(error => {
@@ -32,7 +32,6 @@ export function loginUser(credentials) {
 
 export function logoutUser() {  
   return function(dispatch) {
-    sessionStorage.removeItem('jwt');
     dispatch(push('/'));
     dispatch(logout());
   }

@@ -17,7 +17,7 @@ const user = (state = initialState, action) => {
       })
     case types.LOGIN_SUCCESS:
       return Object.assign({}, state, {
-        action.user
+        user: action.user
       })
     default: 
       return state;

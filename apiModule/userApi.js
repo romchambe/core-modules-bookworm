@@ -1,7 +1,7 @@
 import { buildAddress } from './buildAddress'
 
 class userApi {  
-  static postCreateUser(payload) {
+  static postCreateUser(payload, client) {
     const address = buildAddress(client, 'login')
     const request = new Request(address, {
       method: 'POST',
@@ -13,14 +13,9 @@ class userApi {
 
     return fetch(request).then(response => {
       if (!response.ok) {
-        let createUserError = new Error([response.status,response.message]);
-        return createUserError;
-      } else {
-        return response.json();
+        throw new Error({response.status});
       }
-      
-    }).catch(error => {
-      return error;
+      return response.json();
     });
   } 
 }

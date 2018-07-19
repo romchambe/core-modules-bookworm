@@ -1,11 +1,5 @@
 import { API_URL } from '../config'
 
 export function buildAddress(client, uri) {
-  if (client === 'mobile') {
-    return const address = API_URL.development.mobile + uri
-  } else if (client === 'web') {
-    return const address = API_URL.development.web + uri
-  } else {
-    return new Error('Invalid client')
-  }
+  return (API_URL.development[client]) ? (API_URL.development[client] + uri) : new Error('This is not a valid client')
 }

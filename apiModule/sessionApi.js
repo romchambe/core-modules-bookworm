@@ -13,13 +13,11 @@ class sessionApi {
 
     return fetch(request).then(response => {
       if (!response.ok) {
-        let loginError = new Error([response.status,response.message]);
-        return loginError;
-      } else {
-        return response.json();
-      }
-    }).catch(error => {
-      return error;
+        console.log(response);
+        throw new Error({status:response.status});
+      } 
+      return response.json();
+      
     });
   } 
 }
