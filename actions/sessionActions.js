@@ -1,6 +1,9 @@
 import * as types from './actionTypes';  
 import sessionApi from '../apiModule/sessionApi';
+import { APP_ID } from 'react-native-dotenv';
+
 import { push } from 'connected-react-router';
+import { Facebook } from 'expo';
 
 
 export function loginRequest() {
@@ -34,5 +37,34 @@ export function logoutUser() {
   return function(dispatch) {
     dispatch(push('/'));
     dispatch(logout());
+  }
+}
+
+// Social login handling
+
+export function fbLoginUser(client) {
+  return async function(dispatch){
+    dispatch(loginRequest());
+    const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(APP_ID);
+
+    // FB Graph API Request in case user successfully authed
+    var fbUser = {};
+    if (type === 'success') {
+      fbUser = await sessionApi.getFbUserInfo(token).then(response => {
+        return response;
+      })
+    } else {
+      dispatch(loginFailure(type));
+    }
+    
+    // request JWT to Rails API like in the normal flow
+    if (fbUser){
+      return sessionApi.postFbLogin(fbUser,client).then(response => {
+        dispatch(loginSuccess({user: response.user, jwt: response.jwt}));
+        dispatch(push('/'));
+      }).catch(error => {
+        dispatch(loginFailure(error))
+      })
+    }
   }
 }

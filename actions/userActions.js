@@ -1,7 +1,9 @@
 import * as types from './actionTypes';  
 import userApi from '../apiModule/userApi';
 import { loginSuccess } from './sessionActions';
+
 import { push } from 'connected-react-router';
+
 
 export function createUserRequest(){
   return {type: types.CREATE_USER_REQUEST}
@@ -27,3 +29,5 @@ export function createUser(payload,client) {
     });
   };
 }
+
+
