@@ -35,8 +35,8 @@ export function loginUser(credentials,client) {
 
 export function logoutUser() {  
   return function(dispatch) {
-    dispatch(push('/'));
     dispatch(logout());
+    dispatch(push('/'));
   }
 }
 
@@ -58,7 +58,7 @@ export function fbLoginUser(client) {
     }
     
     // request JWT to Rails API like in the normal flow
-    if (fbUser){
+    if (fbUser.email){
       return sessionApi.postFbLogin(fbUser,client).then(response => {
         dispatch(loginSuccess({user: response.user, jwt: response.jwt}));
         dispatch(push('/'));
