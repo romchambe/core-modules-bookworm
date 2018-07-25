@@ -7,7 +7,8 @@ import user from './userReducer'
 const rootReducer = combineReducers({
   session, 
   error,
-  user
+  user,
+  notes
 })
 
 export default rootReducer
