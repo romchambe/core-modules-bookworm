@@ -3,13 +3,16 @@ import { buildAddress } from './buildAddress'
 class noteApi {
   static postCreateNote(payload, client) {
     const address = buildAddress(client, 'notes')
+    const date = new Date;
+    var noteTitle = 'Draft - ' + date.toLocaleDateString('fr-FR') + ' ' + date.toLocaleTimeString('fr-FR').substring(0,5)
+  
     const request = new Request(address, {
       method: 'POST',
       headers: new Headers({
         'Content-Type': 'application/json', 
-        'Authorization': payload.jwt,
+        'AUTHORIZATION': `Bearer ${payload.jwt},`
       }), 
-      body: JSON.stringify({note: payload.note, user:payload.id})
+      body: JSON.stringify({title: noteTitle})
     });
 
     return fetch(request).then(response => {
@@ -23,13 +26,14 @@ class noteApi {
 
   static getNotesIndex(payload, client) {
     const address = buildAddress(client, 'notes_index')
+
+    
     const request = new Request(address, {
       method: 'GET',
       headers: new Headers({
         'Content-Type': 'application/json',
-        'Authorization': payload.jwt,
-      }), 
-      body: JSON.stringify({user:payload.id})
+        'AUTHORIZATION': `Bearer ${payload.jwt},`
+      })
     });
 
     return fetch(request).then(response => {

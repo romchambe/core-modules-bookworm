@@ -6,17 +6,27 @@ export function createNoteRequest(){
   return {type: types.CREATE_NOTE_REQUEST}
 }
 export function createNoteSuccess(payload){
-  return {type: types.CREATE_NOTE_REQUEST, id:payload.id, infos:{title: payload.title, updatedAt: payload.updatedAt}}
+  return {type: types.CREATE_NOTE_SUCCESS, note: payload}
 }
-export function createNoteFailure(){
-  return {type: types.CREATE_NOTE_REQUEST}
+export function createNoteFailure(error){
+  return {type: types.CREATE_NOTE_FAILURE, error: error}
+}
+export function readNotesIndexRequest(){
+  return {type: types.READ_NOTES_INDEX_REQUEST}
+}
+export function readNotesIndexSuccess(payload){
+  console.log(payload)
+  return {type: types.READ_NOTES_INDEX_SUCCESS, notesList: payload}
+}
+export function readNotesIndexFailure(error){
+  return {type: types.READ_NOTES_INDEX_FAILURE, error: error}
 }
 
 export function createNote (payload,client){
   return function(dispatch) {
-    dispatch(createNoteRequest()).
+    dispatch(createNoteRequest())
     return noteApi.postCreateNote(payload,client).then(response => {
-      dispatch(createNoteSuccess({id: response.id, title: response.title, updatedAt: response.updatedAt}))
+      dispatch(createNoteSuccess(response))
       dispatch(push('/scan'));
     }).catch(error => {
       dispatch(createNoteFailure(error));
@@ -26,12 +36,12 @@ export function createNote (payload,client){
 
 export function readNotesIndex (payload,client){
   return function(dispatch) {
-    dispatch(createNoteRequest()).
-    return noteApi.postCreateNote(payload,client).then(response => {
-      dispatch(createNoteSuccess({id: response.id, title: response.title, updatedAt: response.updatedAt}))
-      dispatch(push('/scan'));
+    dispatch(readNotesIndexRequest())
+    return noteApi.getNotesIndex(payload,client).then(response => {
+      console.log(response)
+      dispatch(readNotesIndexSuccess(response))
     }).catch(error => {
-      dispatch(createNoteFailure(error));
+      dispatch(readNotesIndexFailure(error));
     });
   }
 }
