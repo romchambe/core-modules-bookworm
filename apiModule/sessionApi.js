@@ -2,7 +2,7 @@ import { buildAddress } from './buildAddress'
 
 class sessionApi {
   static postLogin(credentials, client) {
-    const address = buildAddress(client, 'login')
+    const address = buildAddress(client, 'login');
     const request = new Request(address, {
       method: 'POST',
       headers: new Headers({

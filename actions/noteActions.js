@@ -22,6 +22,18 @@ export function readNotesIndexFailure(error){
   return {type: types.READ_NOTES_INDEX_FAILURE, error: error}
 }
 
+export function updateNoteRequest(){
+  return {type: types.UPDATE_NOTE_REQUEST}
+}
+
+export function updateNoteSuccess(){
+  return {type: types.UPDATE_NOTE_SUCCESS}
+}
+
+export function updateNoteFailure(error){
+  return {type: types.UPDATE_NOTE_FAILURE, error: error}
+}
+
 export function createNote (payload,client){
   return function(dispatch) {
     dispatch(createNoteRequest())
@@ -38,10 +50,20 @@ export function readNotesIndex (payload,client){
   return function(dispatch) {
     dispatch(readNotesIndexRequest())
     return noteApi.getNotesIndex(payload,client).then(response => {
-      console.log(response)
       dispatch(readNotesIndexSuccess(response))
     }).catch(error => {
       dispatch(readNotesIndexFailure(error));
     });
   }
+}
+
+export function updateNote (payload, client){
+  return function(dispatch) {
+    dispatch(updateNoteRequest())
+    return noteApi.putUpdateNote(payload,client).then(response => {
+      dispatch(updateNoteSuccess(response))
+    }).catch(error => {
+      dispatch(updateNoteFailure(error));
+    });
+  } 
 }

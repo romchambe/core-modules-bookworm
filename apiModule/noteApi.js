@@ -43,6 +43,26 @@ class noteApi {
       return response.json();
     });
   }
+
+  static putUpdateNote(payload, client) {
+    const address = buildAddress(client, 'notes')
+    const request = new Request(address, {
+      method: 'PUT',
+      headers: new Headers({
+        'Content-Type': 'application/json', 
+        'AUTHORIZATION': `Bearer ${payload.jwt},`
+      }), 
+      body: JSON.stringify({title: noteTitle})
+    });
+
+    return fetch(request).then(response => {
+      if (!response.ok) {
+        throw new Error({status:response.status});
+      } 
+      return response.json();
+      
+    });
+  }
 }
 
 export default noteApi
