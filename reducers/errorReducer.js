@@ -13,6 +13,16 @@ const error = (state = [], action) => {
         ...state,
         action.error
       ]
+    case types.UPLOAD_SCAN_FAILURE:
+      return [
+        ...state,
+        action.error
+      ]
+    case types.UPDATE_NOTE_FAILURE:
+      return [
+        ...state,
+        action.error
+      ]
     case LOCATION_CHANGE:
       return [];
     default: 

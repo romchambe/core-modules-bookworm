@@ -19,6 +19,10 @@ const user = (state = initialState, action) => {
       return Object.assign({}, state, {
         user: action.user
       })
+    case types.LOGOUT:
+      return Object.assign({}, state, {
+        isFetching:false, user: 'public'
+      })
     default: 
       return state;
   }

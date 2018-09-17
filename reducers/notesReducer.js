@@ -9,7 +9,9 @@ const notes = (state = initialState, action) => {
       })
     case types.CREATE_NOTE_SUCCESS:
       return Object.assign({}, state, {
-        isFetchingNotes: false, notesList: [...state.notesList, action.note]
+        isFetchingNotes: false, 
+        notesList: [...state.notesList, action.note],
+        currentNote: action.note
       })
     case types.CREATE_NOTE_FAILURE:
       return Object.assign({}, state, {
@@ -21,7 +23,7 @@ const notes = (state = initialState, action) => {
       })
     case types.UPDATE_NOTE_SUCCESS:
       return Object.assign({}, state, {
-        isFetchingNotes: false 
+        isFetchingNotes: false
       })
     case types.UPDATE_NOTE_FAILURE:
       return Object.assign({}, state, {
@@ -39,7 +41,10 @@ const notes = (state = initialState, action) => {
       return Object.assign({}, state, {
         isFetchingNotes: false
       })
-
+    case types.SET_CURRENT_NOTE:
+      return Object.assign({}, state, {
+        currentNote: action.note
+      })
     default: 
       return state;
   }
